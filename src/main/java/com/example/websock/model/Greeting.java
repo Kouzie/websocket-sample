@@ -1,12 +1,15 @@
 package com.example.websock.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@Builder
 public class Greeting {
+    private LocalDateTime now;
     private String content;
 }

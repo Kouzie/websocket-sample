@@ -10,8 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class WebPageController {
 
     @GetMapping("/stomp")
-    public void websocket_stomp(Model model) {
-        log.info("websocket_stomp called...");
+    public void websocketStomp(Model model) {
+        log.info("websocketStomp called...");
+        model.addAttribute("result", "SUCCESS");
+    }
+
+    @GetMapping("/sample")
+    public void websocketSample(Model model) {
+        log.info("websocketSample called...");
         model.addAttribute("result", "SUCCESS");
     }
 }
