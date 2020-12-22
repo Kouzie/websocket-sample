@@ -1,7 +1,9 @@
 package com.example.websock.config;
 
+import com.example.websock.component.TestComponent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -11,15 +13,18 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
+@Component
 @RequiredArgsConstructor
 public class WebSocketHandler extends TextWebSocketHandler {
 
     private static Set<WebSocketSession> sessions = new ConcurrentHashMap().newKeySet();
+    private final TestComponent testComponent;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         super.afterConnectionEstablished(session);
         sessions.add(session);
+        testComponent.printTestString();
         log.info("client{} connect", session.getRemoteAddress());
     }
 
