@@ -14,4 +14,9 @@ public class WebPageController {
         log.info("websocketSample called...");
         model.addAttribute("result", "SUCCESS");
     }
+    @GetMapping("/sample-without-sockjs")
+    public void websocketWithoutSockJsSample(Model model) {
+        log.info("websocketWithoutSockJsSample called...");
+        model.addAttribute("result", "SUCCESS");
+    }
 }
