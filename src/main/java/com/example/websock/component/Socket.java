@@ -1,31 +1,30 @@
 package com.example.websock.component;
 
-import com.example.websock.config.CustomSpringConfigurator;
 import lombok.extern.java.Log;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.ArrayList;
+import java.util.List;
+
 @Log
 @Component
-@ServerEndpoint(value = "/websocket", configurator = CustomSpringConfigurator.class)  //서버가 바인딩된 주소를 뜻함.
+@ServerEndpoint(value = "/websocket")  //서버가 바인딩된 주소를 뜻함.
 public class Socket {
     private Session session;
-    public static Set<Socket> listeners = new CopyOnWriteArraySet<>();
+    public static List<Socket> listeners = new ArrayList<>();
     private static int onlineCount = 0;
 
-    @Autowired
     private TestComponent testComponent;
 
     @OnOpen //클라이언트가 소켓에 연결되때 마다 호출
     public void onOpen(Session session) {
         onlineCount++;
         log.info("onOpen called, userCount:" + onlineCount);
-        testComponent.printTestString();
+        this.testComponent = SpringContext.getBean(TestComponent.class);
+        this.testComponent.printTestString();
         this.session = session;
         listeners.add(this);
     }
@@ -49,8 +48,9 @@ public class Socket {
         listeners.remove(this);
     }
 
-    public static void broadcast(String message) {
+    public void broadcast(String message) {
         for (Socket listener : listeners) {
+            if (listener == this) continue;
             listener.sendMessage(message);
         }
     }

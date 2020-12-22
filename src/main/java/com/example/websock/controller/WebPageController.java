@@ -14,10 +14,4 @@ public class WebPageController {
         log.info("websocket_sample called...");
         model.addAttribute("result", "SUCCESS");
     }
-
-    @GetMapping("/stomp")
-    public void websocket_stomp(Model model) {
-        log.info("websocket_stomp called...");
-        model.addAttribute("result", "SUCCESS");
-    }
 }
